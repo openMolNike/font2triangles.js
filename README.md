@@ -20,12 +20,12 @@ array of objects with fields:
   ... and so on. Only x and y coordinates!
 4) "contour" is optional array ща borders with same structure
 
-# Render your font by yourself:
+# Pre-compile your font file by yourself:
 1) Copy files to your web server
 2) Copy your font file to the same directory
 3) Edit in "run_me.html": var fontname & (optional) var font_char 
 4) Run "run_me.html" via web browser
-5) Copy last textbox value into "*.json" file
+5) Copy last textbox value into "\*.json" file
 6) Use it in your 3d application
 
 # Problems:
@@ -36,6 +36,14 @@ array of objects with fields:
 ![alt text](https://raw.githubusercontent.com/openMolNike/font2triangles.js/master/font_compare.png)
 
 # Main function shortly:
+```html
+<script src="libs/opentype@0.7.3.js"></script>      <!--Get font SVG path-->
+<script src="libs/js-svg-path@1.1.0.js"></script>   <!--SVG to point array-->
+<script src="libs/clipper@6.2.1.js"></script>       <!--Boolean operations for holes check-->
+<script src="libs/jsts.min@1.2.1.js"></script>      <!--Second color countors-->
+<script src="libs/poly2tri@1.5.0.js"></script>      <!--Final triangulation-->
+<script src="font2triangles.js"></script>
+```
 ```js
 opentype.load("Oswald-Medium_modified.ttf", function(err, font) {
   var fontdata = getFontTriangles(font,"abcd......zABC.....Z......",100,10);
@@ -51,4 +59,4 @@ opentype.load("Oswald-Medium_modified.ttf", function(err, font) {
 5) https://github.com/r3mi/poly2tri.js
 
 # License:
-Do everything you want! You are free.
+You are free to do everything you want with my code! But check lib's Licenses.
