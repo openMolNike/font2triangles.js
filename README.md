@@ -1,12 +1,14 @@
 # font2triangles.js is...
 JavaScript convertation of *.ttf font file to array of triangles of 3D graphics
 
+![alt text](https://raw.githubusercontent.com/openMolNike/font2triangles.js/master/demo_test.png)
+
 # This is not a lib for usage with final app
-This is a script for getting json file wich can be used without this script.
+This is a script for getting pre-compiled json file which can be used without this script.
 
 # Usage:
-Just use font_ready.json file if you like it.
-This file contains polygons of each chars. You can build string char by char yourself.
+Just use font_ready.json file if you like "Oswald-Medium_modified.ttf".
+This file contains polygons of each chars. You can build string polygons char by char yourself.
 
 # JSON triangle structure:
 array of objects with fields:
@@ -38,4 +40,4 @@ array of objects with fields:
 5) https://github.com/r3mi/poly2tri.js
 
 # License
-Do everything you want!
+Do everything you want! You are free.
