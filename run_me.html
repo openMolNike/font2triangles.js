@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset=utf-8 />
+        <title>Font render</title>
+        
+        <script src="libs/opentype@0.7.3.js"></script>      <!--Get font SVG path-->
+        <script src="libs/js-svg-path@1.1.0.js"></script>   <!--SVG to point array-->
+        <script src="libs/clipper@6.2.1.js"></script>       <!--Boolean operations for holes check-->
+        <script src="libs/jsts.min@1.2.1.js"></script>      <!--Second color countors-->
+        <script src="libs/poly2tri@1.5.0.js"></script>      <!--Final triangulation-->
+
+        <script src="font2triangles.js"></script>
+    </head>
+    <body>
+        <div><canvas id='canvas' width=1890 height=300></canvas></div>
+        <p>just path (ready for svg):</p>
+        <div><textarea id='textbox1'></textarea></div>
+        <p>holes and path are separeted:</p>
+        <div><textarea id='textbox2'></textarea></div>
+        <p>final triangles (ready for WebGL 3D):</p>
+        <div><textarea id='textbox3'></textarea></div>
+        <script type="text/javascript" charset="utf-8">
+
+            var fontname = "Oswald-Medium_modified.ttf";
+
+            opentype.load(""+fontname, function(err, font) {
+                if (err) {
+                     alert('Font could not be loaded: ' + err);
+                } else {
+                    var ctx = document.getElementById('canvas').getContext('2d');
+                    
+                    //Checking font file and encoding of this html before covertation
+                    var path = font.getPath("RUSSIAN ENCODING:щёыйъ123Q", 0, 70, 50);
+                    path.draw(ctx);
+
+                    // I need just 2 languages
+                    var font_chars = "!?#$%&@'"+"\""+"`*+-.,:;/|\\<=>[](){}~^_"+"0123456789" // main
+                                    +"ABCDEFGHIJKLMNOPQRSTUVWXYZ"+"abcdefghijklmnopqrstuvwxyz" // english
+                                    +"АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"+"абвгдеёжзийклмнопрстуфхцчшщъыьэюя"; // russian
+
+                    var fontsize = 100; // if fonsize is small, then holes check later will case bugs
+                    var spacing = 10; // be careful too
+
+                    //main work
+                    var fontdata = getFontTriangles(font,font_chars,fontsize,spacing);
+                    textbox1.value = JSON.stringify({arr:fontdata.paths},null,2);
+                    textbox2.value = JSON.stringify({arr:fontdata.shapes},null,2);
+                    textbox3.value = JSON.stringify({arr:fontdata.triangles});
+                    console.log("length compare: "+fontdata.paths.length+"/"+fontdata.triangles.length);
+
+                    //errors?
+                    var bugs = "";
+                    for(var j=0;j<fontdata.bugs.length;j++){
+                        bugs = bugs + fontdata.bugs[j];
+                    }
+                    var path = font.getPath("errors: "+bugs, 800, 70, 25);
+                    path.draw(ctx);
+
+                    //test result (we don't need 3d to check triagles)
+                    var s = 0.45;
+                    var space = 5;
+                    var x = space*s;
+                    var eng = 42;
+                    var rus = 94;
+                    var poly = fontdata.triangles;
+                    for(var j=0; j<eng; j++){
+                        draw3(ctx,poly[j].contour,x,130,s,'rgba(0,0,255,1)');
+                        draw3(ctx,poly[j].poly,x,130,s,'rgba(255,0,0,1)');
+                        x = x+poly[j].w*s+space*s;
+                    }
+                    var x = space*s;
+                    for(var j=eng; j<rus; j++){
+                        draw3(ctx,poly[j].contour,x,190,s,'rgba(0,0,255,1)');
+                        draw3(ctx,poly[j].poly,x,190,s,'rgba(255,0,0,1)');
+                        x = x+poly[j].w*s+space*s;
+                    }
+                    var x = space*s;
+                    for(var j=rus; j<poly.length; j++){
+                        draw3(ctx,poly[j].contour,x,250,s,'rgba(0,0,255,1)');
+                        draw3(ctx,poly[j].poly,x,250,s,'rgba(255,0,0,1)');
+                        x = x+poly[j].w*s+space*s;
+                    }
+                    
+                    //draw triable on canvas
+                    function draw3(ctx,tr,x,y,s,color){
+                        if(tr!==undefined){
+                            ctx.strokeStyle = 'rgba(0,0,0,1)';
+                            ctx.fillStyle = color;
+                            for(var j=0; j<tr.length; j++){
+                                var x1 = j*6+0*2+0;
+                                var y1 = j*6+0*2+1;
+                                var x2 = j*6+1*2+0;
+                                var y2 = j*6+1*2+1;
+                                var x3 = j*6+2*2+0;
+                                var y3 = j*6+2*2+1;
+                                ctx.beginPath();
+                                ctx.moveTo(x+tr[x3]*s,y+tr[y3]*s);
+                                ctx.lineTo(x+tr[x1]*s,y+tr[y1]*s);
+                                ctx.lineTo(x+tr[x2]*s,y+tr[y2]*s);
+                                ctx.lineTo(x+tr[x3]*s,y+tr[y3]*s);
+                                //ctx.stroke();
+                            }
+                            for(var j=0; j<tr.length; j++){
+                                var x1 = j*6+0*2+0;
+                                var y1 = j*6+0*2+1;
+                                var x2 = j*6+1*2+0;
+                                var y2 = j*6+1*2+1;
+                                var x3 = j*6+2*2+0;
+                                var y3 = j*6+2*2+1;
+                                ctx.beginPath();
+                                ctx.moveTo(x+tr[x3]*s,y+tr[y3]*s);
+                                ctx.lineTo(x+tr[x1]*s,y+tr[y1]*s);
+                                ctx.lineTo(x+tr[x2]*s,y+tr[y2]*s);
+                                ctx.lineTo(x+tr[x3]*s,y+tr[y3]*s);
+                                ctx.fill();
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
