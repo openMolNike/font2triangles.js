@@ -1,24 +1,24 @@
 # font2triangles.js is...
-JavaScript convertation of *.ttf font file to array of triangles for 3D graphics
+JavaScript convertation of \*.ttf font file to array of triangles for 3D graphics
 
 ![alt text](https://raw.githubusercontent.com/openMolNike/font2triangles.js/master/demo_test.png)
 
 # This is not a lib for using in final app!
 This is a script for getting pre-compiled json file which can be used without this script.
 
-# Usage:
-1) Just use font_ready.json file if you like "Oswald-Medium_modified.ttf". This file contains polygons of each chars.
+# Default usage:
+1) Just use "font_ready.json" file if you like "Oswald-Medium_modified.ttf". This file contains polygons of each chars.
 2) Code 3d-render by yourself. You can build string polygons char by char by putting it into right (x,y) position.
 
-# JSON triangle structure:
+# JSON structure:
 array of objects with fields:
-1) "id" is char
-2) "w" is max char x value. Use it to move x position of next char when you render it
-3) "poly" is main triangles array: 
-  triangle1point1.x, triangle1point1.y, triangle1point2.x, triangle1point2.y, triangle1point3.x, triangle1point3.y,
-  triangle2point1.x, triangle2point1.y, triangle2point2.x, triangle2point2.y, triangle2point3.x, triangle2point3.y,
+1) "id" is one char.
+2) "w" is max char x value. Use it to move x position of next char when you render it.
+3) "poly" is main triangles array:<br/>
+  triangle1point1.x, triangle1point1.y, triangle1point2.x, triangle1point2.y, triangle1point3.x, triangle1point3.y,<br/>
+  triangle2point1.x, triangle2point1.y, triangle2point2.x, triangle2point2.y, triangle2point3.x, triangle2point3.y,<br/>
   ... and so on. Only x and y coordinates!
-4) "contour" is optional array ща borders with same structure
+4) "contour" is optional array of borders triangles with same structure. You may need them with second color.
 
 # Pre-compile your font file by yourself:
 1) Copy files to your web server
@@ -26,7 +26,6 @@ array of objects with fields:
 3) Edit in "run_me.html": var fontname & (optional) var font_char 
 4) Run "run_me.html" via web browser
 5) Copy last textbox value into "\*.json" file
-6) Use it in your 3d application
 
 # Problems:
 1) There is no space char width. You can use width of "w" char for example.
@@ -35,7 +34,8 @@ array of objects with fields:
 
 ![alt text](https://raw.githubusercontent.com/openMolNike/font2triangles.js/master/font_compare.png)
 
-# Main function shortly:
+# Main function API: 
+getFontTriangles(opentype_font_object,chars_string,font_size,contour_size);
 ```html
 <script src="libs/opentype@0.7.3.js"></script>      <!--Get font SVG path-->
 <script src="libs/js-svg-path@1.1.0.js"></script>   <!--SVG to point array-->
@@ -53,10 +53,15 @@ opentype.load("Oswald-Medium_modified.ttf", function(err, font) {
 
 # Used libs:
 1) https://github.com/nodebox/opentype.js
-2) https://github.com/Pomax/js-svg-path
-3) https://sourceforge.net/projects/jsclipper/
+2) https://github.com/Pomax/js-svg-path 
+3) https://sourceforge.net/projects/jsclipper
 4) https://github.com/bjornharrtell/jsts
 5) https://github.com/r3mi/poly2tri.js
 
 # License:
-You are free to do everything you want with my code! But check lib's Licenses.
+You are free to do everything you want with my code! But check lib's licenses:
+<br/>opentype.js - MIT License
+<br/>js-svg-path - Public Domain License
+<br/>jsclipper - Boost Software License (BSL1.0)
+<br/>jsts - Eclipse Distribution License v1.0 & Eclipse Public License (EPL-1.0)
+<br/>poly2tri.js - BSD-3-Clause License
