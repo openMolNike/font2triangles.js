@@ -1,3 +1,4 @@
+// https://github.com/openMolNike/font2triangles.js
 function getFontTriangles(font,font_chars,fontsize,spacing) {
 
     function clipPath(subj, clip, mode, isarr) {
