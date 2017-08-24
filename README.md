@@ -59,18 +59,12 @@ opentype.load("Oswald-Medium_modified.ttf", function(err, font) {
 5) https://github.com/r3mi/poly2tri.js
 
 # License:
-You are free to do everything you want with my code! But check lib's licenses:
+My code is under <b>MIT License</b> 
+<br/>
+<br/>Check lib's licenses:
 <br/>opentype.js - MIT License
 <br/>js-svg-path - Public Domain License
 <br/>jsclipper - Boost Software License (BSL1.0)
 <br/>jsts - Eclipse Distribution License v1.0 & Eclipse Public License (EPL-1.0)
 <br/>poly2tri.js - BSD-3-Clause License
 
-<br/><br/><br/>
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR<br/>
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,<br/>
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE<br/>
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER<br/>
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,<br/>
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE<br/>
-SOFTWARE.
