@@ -1,6 +1,6 @@
 # Libs
 I publish it there for quicker usage. 
-<br/>I renamed files to <filename>@<version> template and added licenses names in headers.
+<br/>I renamed files to &lt;filename&gt;@&lt;version&gt; template and added licenses names in headers.
 <br/>Original files are there:
 1) https://github.com/nodebox/opentype.js - MIT License
 2) https://github.com/Pomax/js-svg-path - Public Domain License
